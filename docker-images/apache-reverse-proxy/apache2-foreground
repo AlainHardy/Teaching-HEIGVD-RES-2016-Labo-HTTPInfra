@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+# add setup for RES lab
+echo "Setup for the RES lab..."
+echo "Static app URL: $STATIC_APP"
+echo "Dynamic app URL: $DYNAMIC_APP"
+php /var/apache2/templates/config-template.php > /etc/apache2/sites-available/001-reverse-proxy.conf
+
+# Apache gets grumps about PID files pre-existing
+rm -f /var/run/apache2/apache.pid
+
+exec apache2 -DFOREGROUND
